@@ -1,0 +1,104 @@
+PATIENTS
+- patient_id (primary key)
+- first_name
+- middle_name
+- last_name
+- date_of_birth
+- gender
+- address
+- city
+- state
+- Postal Index Number Code
+- phone_number
+- email_address
+- claim id(foreign key to CLAIMS)
+
+DOCTOR
+- doctor_id (primary key)
+- first_name
+- middle_name
+- last_name
+- specialty
+- city
+- state
+- zip_code
+- phone_number
+- email_address
+
+INSURANCE_PROVIDERS
+- insurance_provider_id (primary key)
+- company name
+- address
+- city
+- state
+- zip_code
+- phone_number
+- email_address
+
+INSURANCE_PLANS
+- insurance_plan_id (primary key)
+- insurance_provider_id (foreign key to INSURANCE_PROVIDERS)
+-insurance plan name
+- description
+- deductible
+- maximum_out_of_pocket
+- hospital id(hospitals covered under the insurance plan)
+- start_date
+- end_date
+
+HOSPITALS
+- hospital id(primary key)
+-insurance_plan_id(foreign key to INSURANCE_PLANS)
+-hospital name
+-city
+-state
+-zip code
+-Address
+-Email Address
+
+PATIENT_INSURANCE
+- patient_insurance_id (primary key)
+- patient_id (foreign key to PATIENTS)
+- insurance_plan_id (foreign key to INSURANCE_PLANS)
+- policy_number
+- subscriber_first_name(Person who pays the premium and his/her name is on insurance card.)
+- subscriber_middle_name
+- subscriber_last_name
+- relationship_to_subscriber
+- subscriber_date_of_birth
+
+APPOINTMENTS
+- appointment_id (primary key)
+- patient_id (foreign key to PATIENTS)
+- doctor_id (foreign key to DOCTORS)
+- appointment_date
+- appointment_time
+- appointment_fee
+- appointment_status
+
+CLAIMS
+- claim_id (primary key)
+- appointment_id (foreign key to APPOINTMENTS)
+- insurance_provider_id (foreign key to INSURANCE_PROVIDERS)
+- claim_date
+- claim_amount
+- claim_status
+
+
+PAYMENTS
+- payment_id (primary key)
+- claim_id (foreign key to CLAIMS)
+- payment_date
+- payment_amount
+- payment_method
+- payment_status
+
+PATIENT_BILLING
+- billing_id (primary key)
+- patient_id (foreign key to PATIENTS table)
+- appointment_id (foreign key to APPOINTMENTS table)
+- claim_id (foreign key to CLAIMS table)
+- payment_id (foreign key to PAYMENTS table)
+- billing_date
+- billing_amount
+- billing_status
