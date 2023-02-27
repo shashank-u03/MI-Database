@@ -1,0 +1,127 @@
+TABLE PATIENTS {
+  patient_id INT [pk] 
+  first_name VARCHAR(50) 
+  middle_name VARCHAR(50) 
+  last_name VARCHAR(50) 
+  date_of_birth DATE 
+  gender VARCHAR(10) 
+  address VARCHAR(100) 
+  city VARCHAR(50) 
+  state VARCHAR(50) 
+  pin_code VARCHAR(10) 
+  phone_number VARCHAR(20) 
+  email_address VARCHAR(100) 
+  claim_id INT 
+  // FOREIGN KEY (claim_id) REFERENCES CLAIMS(claim_id)
+}
+
+TABLE DOCTOR {
+  doctor_id INT [pk] 
+  first_name VARCHAR(50) 
+  middle_name VARCHAR(50) 
+  last_name VARCHAR(50) 
+  specialty VARCHAR(50) 
+  city VARCHAR(50) 
+  state VARCHAR(50) 
+  zip_code VARCHAR(10) 
+  phone_number VARCHAR(20) 
+  email_address VARCHAR(100)
+}
+
+ TABLE INSURANCE_PROVIDERS {
+  insurance_provider_id INT [pk] 
+  company_name VARCHAR(100) 
+  address VARCHAR(100) 
+  city VARCHAR(50) 
+  state VARCHAR(50) 
+  zip_code VARCHAR(10) 
+  phone_number VARCHAR(20) 
+  email_address VARCHAR(100)
+}
+
+TABLE INSURANCE_PLANS {
+  insurance_plan_id INT [pk] 
+  insurance_provider_id INT 
+  insurance_plan_name VARCHAR(100) 
+  description VARCHAR(200) 
+  deductible DECIMAL(10  2) 
+  maximum_out_of_pocket DECIMAL(10  2) 
+  hospital_id INT 
+  start_date DATE 
+  end_date DATE 
+  // FOREIGN KEY (insurance_provider_id) REFERENCES INSURANCE_PROVIDERS(insurance_provider_id) 
+  // FOREIGN KEY (hospital_id) REFERENCES HOSPITALS(hospital_id)
+}
+
+ TABLE HOSPITALS {
+  hospital_id INT [pk] 
+  insurance_plan_id INT 
+  hospital_name VARCHAR(100) 
+  city VARCHAR(50) 
+  state VARCHAR(50) 
+  zip_code VARCHAR(10) 
+  address VARCHAR(100) 
+  email_address VARCHAR(100) 
+  // FOREIGN KEY (insurance_plan_id) REFERENCES INSURANCE_PLANS(insurance_plan_id)
+}
+
+ TABLE PATIENT_INSURANCE {
+  patient_insurance_id INT [pk] 
+  patient_id INT 
+  insurance_plan_id INT 
+  policy_number VARCHAR(50) 
+  subscriber_first_name VARCHAR(50) 
+  subscriber_middle_name VARCHAR(50) 
+  subscriber_last_name VARCHAR(50) 
+  relationship_to_subscriber VARCHAR(50) 
+  subscriber_date_of_birth DATE 
+  // FOREIGN KEY (patient_id) REFERENCES PATIENTS(patient_id) 
+  // FOREIGN KEY (insurance_plan_id) REFERENCES INSURANCE_PLANS(insurance_plan_id)
+}
+
+ TABLE APPOINTMENTS {
+  appointment_id INT [pk] 
+  patient_id INT 
+  doctor_id INT 
+  appointment_date DATE 
+  appointment_time TIME 
+  appointment_fee DECIMAL(10  2) 
+  appointment_status VARCHAR(50) 
+  // FOREIGN KEY (patient_id) REFERENCES PATIENTS(patient_id) 
+  // FOREIGN KEY (doctor_id) REFERENCES DOCTOR(doctor_id)
+}
+
+TABLE CLAIMS {
+  claim_id INT [pk] 
+  appointment_id INT 
+  insurance_provider_id INT 
+  claim_date DATE 
+  claim_amount DECIMAL(10  2) 
+  claim_status VARCHAR(50) 
+  // FOREIGN KEY (appointment_id) REFERENCES APPOINTMENTS(appointment_id) 
+  // FOREIGN KEY (insurance_provider_id) REFERENCES INSURANCE_PROVIDERS(insurance_provider_id)
+}
+
+TABLE PAYMENTS {
+  payment_id INT [pk] 
+  claim_id INT 
+  payment_date DATE 
+  payment_amount DECIMAL(10  2) 
+  payment_method VARCHAR(50) 
+  payment_status VARCHAR(50) 
+  // FOREIGN KEY (claim_id) REFERENCES CLAIMS(claim_id)
+}
+TABLE PATIENT_BILLING {
+  billing_id INT [pk] 
+  patient_id INT 
+  appointment_id INT 
+  claim_id INT 
+  payment_id INT 
+  billing_date DATE 
+  billing_amount DECIMAL(10  2) 
+  billing_status VARCHAR(50) 
+  // FOREIGN KEY (patient_id) REFERENCES PATIENTS(patient_id) 
+  // FOREIGN KEY (appointment_id) REFERENCES APPOINTMENTS(appointment_id) 
+  // FOREIGN KEY (claim_id) REFERENCES CLAIMS(claim_id) 
+  // FOREIGN KEY (payment_id) REFERENCES PAYMENTS(payment_id)
+}
