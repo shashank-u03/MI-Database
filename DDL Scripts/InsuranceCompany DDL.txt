@@ -1,0 +1,66 @@
+Set search_path to project;
+CREATE OR REPLACE FUNCTION companyaddress()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT companyaddress FROM (
+        SELECT companyaddress
+        FROM (
+            SELECT unnest('{"The Tower at Midtown", "The Commerce Center", "The Plaza at Park Avenue", "The Metropolitan Tower", "The Corporate Commons", "The Business District", "The Promenade Plaza", "The Innovation Center", "The Executive Suites", "The Commerce Exchange", "The Business Park", "The Professional Plaza", "The Corporate Center", "The Commerce Tower", "The Executive Tower", "The Innovation Campus", "The Corporate Park", "The Enterprise Building", "The Business Exchange", "The Commerce Campus", "The Professional Tower", "The Executive Campus", "The Business Suites", "The Corporate Suites", "The Innovation Suites", "The Commerce Suites", "The Professional Exchange", "The Executive Exchange", "The Business Tower", "The Corporate Exchange"}'::text[]) AS companyaddress     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION companyname()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT companyname FROM (
+        SELECT companyname
+        FROM (
+            SELECT unnest('{State Farm,
+GEICO,
+Allstate,
+Progressive,
+Nationwide,
+Liberty Mutual,
+Farmers Insurance,
+USAA,
+Travelers,
+American Family Insurance,
+Chubb,
+The Hartford,
+Erie Insurance,
+Amica Mutual Insurance,
+MetLife,
+Mercury Insurance,
+AAA,
+AIG,
+Safeco Insurance,
+The General Insurance,
+Esurance,
+National General Insurance,
+Plymouth Rock Assurance,
+Kemper,
+MAPFRE Insurance,
+Hanover Insurance,
+COUNTRY Financial,
+Grange Insurance,
+Auto-Owners Insurance,
+The Cincinnati Insurance Company.}'::text[]) AS companyname     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+select * from insurancecompany;
+INSERT INTO insurancecompany (insuranceproviderid,emailiD,companyaddress, companyname)
+SELECT 
+    generate_series(2045901,2045930),  
+    'insuranceprovider_' || generate_series(1,30) || '@example.com',
+	companyaddress(),
+	companyname();
+;
