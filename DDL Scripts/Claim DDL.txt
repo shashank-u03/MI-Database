@@ -1,0 +1,65 @@
+Set search_path to project;
+CREATE OR REPLACE FUNCTION place_of_service()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT placeofservice FROM (
+        SELECT placeofservice
+        FROM (
+            SELECT unnest('{OT1,OT2,OT3,OT4,OT5,GR1,GR2,GR3,GR4,GR5,SP1,SP2,SP3,SP4,SP5}'::text[]) AS placeofservice   
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
+   RETURNS INT AS
+$$
+BEGIN
+   RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ language 'plpgsql' STRICT;
+
+CREATE OR REPLACE FUNCTION claimstatus(prob FLOAT)
+RETURNS text AS $$
+BEGIN
+    IF prob <= 0.7 THEN
+        RETURN 'Insurance Accepted';
+    ELSEIF prob > 0.7 THEN
+        RETURN 'Insurance Rejected';
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION paymentresponsibility(prob FLOAT)
+RETURNS text AS $$
+BEGIN
+    IF prob <= 0.5 THEN
+        RETURN 'Self';
+    ELSEIF prob > 0.5 THEN
+        RETURN 'Insurance Company';
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+delete from claim;
+select * from claim;
+INSERT INTO claim (claimID, appid, claimdate, claimstatus, claimamt, paymentresponsibility, startdos, enddos,placeofservice)
+SELECT 
+    generate_series(4094801,4094900), 
+	generate_series(101001,101100),
+	now() + (random() * ('2023-08-01'::date-now())::interval),
+    claimstatus(random()), 
+    random_between(1000,5000), 
+    paymentresponsibility(random()),  
+    now() + (random() * (now() - '2023-05-01'::date)::interval),
+	now() + (random() * (now() - '2023-11-01'::date)::interval),
+	place_of_service();
+;
+

@@ -1,0 +1,37 @@
+Set search_path to project;
+CREATE OR REPLACE FUNCTION fee(prob FLOAT)
+RETURNS INT AS $$
+BEGIN
+    IF prob > 0.8 THEN
+        RETURN 70;
+    ELSEIF prob <= 0.8 THEN
+        RETURN 50;
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION status(prob FLOAT)
+RETURNS text AS $$
+BEGIN
+    IF prob > 0.8 THEN
+        RETURN 'Not Visited';
+    ELSEIF prob <= 0.8 THEN
+        RETURN 'Visited';
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+INSERT INTO Appointment(AppID,patientID,doctorID,AppDate,AppFee,Appstatus)
+SELECT 
+	generate_series(101001,101100),
+	generate_series(1,100),
+	floor(random() * (250-201+1) + 201)::int,
+	'2023-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
+	fee(random()),
+	status(random())
+	
+UPDATE Appointment SET AppFee = 0 WHERE Appstatus = 'Not Visited';

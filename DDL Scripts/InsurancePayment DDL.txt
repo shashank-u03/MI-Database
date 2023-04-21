@@ -1,0 +1,53 @@
+Set search_path to project;
+CREATE OR REPLACE FUNCTION paymentstatus()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT paymentstatus FROM (
+        SELECT paymentstatus
+        FROM (
+            SELECT unnest('{"Accepted","Rejected"}'::text[]) AS paymentstatus     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION paymenttype()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT paymenttype FROM (
+        SELECT paymenttype
+        FROM (
+            SELECT unnest('{"Electronic Fund Transfer","Credit Card","Debit Card","Online Payment","Cheque","Cash"}'::text[]) AS paymenttype     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION paymentamount()
+RETURNS int AS $$
+BEGIN
+    RETURN (SELECT paymentamount FROM (
+        SELECT paymentamount
+        FROM (
+            SELECT unnest(ARRAY[900,1034,2203,1130,1175,708,479,111,387,1262,647,2050,871,1114,2476,989,1702,899,641,787,357,2117,1442,373,1873,1596,1960,951,296,1505,1151,2197,1437,533,1110,424,1756,2225,2276,932,535,1136,1372,1681,2474,1079,2355,847,234,1319,1037,1488,1418,514,1629,1412,2336,1058,745,427,2408,234,1136,981,434,979,1665,549,554,221,345,964,1400,1754,630,1143,1220,751,2259,825,1766,1561,343,1267,915,435,2044,1602,2433,329,854,684,2058,104,1746,1922,2405,571,1543,169]::int[]) AS paymentamount     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+select * from insurancepayment;
+INSERT INTO insurancepayment (paymentID, claimid, paymentstatus, paymenttype, paymentdate, paymentamount)
+SELECT 
+    generate_series(3045201,3045300),
+	generate_series(1701,1800),
+    paymentstatus(), 
+    paymenttype(),  
+    '2019-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
+    paymentamount();
+;
