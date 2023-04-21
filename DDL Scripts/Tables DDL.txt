@@ -1,0 +1,171 @@
+CREATE SCHEMA project;
+SET SEARCH_PATH TO project;
+
+CREATE TABLE Patient (
+  patientID int PRIMARY KEY,
+  firstName varchar,
+  middleName varchar,
+  lastName varchar,
+  gender varchar,
+  emailID varchar,
+  DOB date,
+  postalCode int
+);
+select * from Patient;
+CREATE TABLE ContactNo (
+  ID int,
+  mobileNo int,
+  PRIMARY KEY (ID, mobileNo)
+);
+select * from ContactNo;
+CREATE TABLE PatientInsurance (
+  policyNo int PRIMARY KEY,
+  insuranceProviderID int,
+  patientID int,
+  subscriberDOB date,
+  subscriberName varchar
+);
+select * from PatientInsurance;
+
+CREATE TABLE Appointment (
+  AppID int PRIMARY KEY,
+  patientID int,
+  doctorID int,
+  AppDate date,
+  AppFee int,
+  Appstatus varchar
+);
+select * from Appointment;
+
+CREATE TABLE DiseaseType (
+  AppID int,
+  DiseaseType varchar,
+  PRIMARY KEY (AppID, DiseaseType)
+);
+select * from DiseaseType;
+
+CREATE TABLE InsuranceCompany (
+  insuranceProviderID int PRIMARY KEY,
+  emailID varchar,
+  companyAddress varchar,
+  companyName varchar
+);
+select * from InsuranceCompany;
+
+CREATE TABLE ChargesAndDiagnosis (
+  diagnosisName varchar,
+  procedureID int,
+  AppID int,
+  chargeFee int,
+  cptCode int,
+  quantity int,
+  PRIMARY KEY (diagnosisName, procedureID)
+);
+select * from ChargesAndDiagnosis;
+
+CREATE TABLE Doctor (
+  doctorID int PRIMARY KEY,
+  officeNo int,
+  firstName varchar,
+  middleName varchar,
+  lastName varchar,
+  NPI varchar,
+  email varchar,
+  speciality varchar,
+  taxID int
+);
+select * from Doctor;
+
+CREATE TABLE Claim (
+  claimID int PRIMARY KEY,
+  AppID int,
+  claimDate date,
+  claimStatus varchar,
+  claimAmt int,
+  paymentResponsibility varchar,
+  startDOS date,
+  endDOS date,
+  placeOfService varchar
+);
+
+CREATE TABLE DescriptionOf (
+  diagnosisName varchar,
+  procedureID int,
+  claimID int,
+  PRIMARY KEY (diagnosisName, procedureID, claimID)
+);
+
+CREATE TABLE Hospital (
+  hospitalID int PRIMARY KEY,
+  hospitalName varchar,
+  postalCode int,
+  email varchar
+);
+
+CREATE TABLE WorksIn (
+  hospitalID int,
+  doctorID int,
+  PRIMARY KEY (hospitalID, doctorID)
+);
+
+CREATE TABLE PatientPayment (
+  paymentID int PRIMARY KEY,
+  claimID int,
+  paymentStatus varchar,
+  paymentAmount varchar,
+  paymentDate date,
+  paymentType varchar
+);
+
+CREATE TABLE InsurancePayment (
+  paymentID int PRIMARY KEY,
+  claimID int,
+  paymentStatus varchar,
+  paymentType varchar,
+  paymentDate date,
+  paymentAmount int
+);
+
+CREATE TABLE Location (
+  postalCode int PRIMARY KEY,
+  city varchar,
+  state varchar,
+  country varchar
+);
+ALTER TABLE PatientInsurance ADD FOREIGN KEY (patientID) REFERENCES Patient (patientID);
+Select * from patient natural join patientInsurance;
+
+ALTER TABLE ContactNo ADD FOREIGN KEY (ID) REFERENCES Patient (patientID);
+Select * from patient join ContactNo on patient.patientid= contactno.id;
+
+ALTER TABLE Appointment ADD FOREIGN KEY (patientID) REFERENCES Patient (patientID);
+
+ALTER TABLE PatientInsurance ADD FOREIGN KEY (insuranceProviderID) REFERENCES InsuranceCompany (insuranceProviderID);
+
+ALTER TABLE WorksIn ADD FOREIGN KEY (hospitalID) REFERENCES Hospital (hospitalID);
+
+ALTER TABLE WorksIn ADD FOREIGN KEY (doctorID) REFERENCES Doctor (doctorID);
+
+ALTER TABLE DiseaseType ADD FOREIGN KEY (AppID) REFERENCES Appointment (AppID);
+
+ALTER TABLE Appointment ADD FOREIGN KEY (doctorID) REFERENCES Doctor (doctorID);
+
+ALTER TABLE ChargesAndDiagnosis ADD FOREIGN KEY (AppID) REFERENCES Appointment (AppID);
+
+ALTER TABLE ContactNo ADD FOREIGN KEY (ID) REFERENCES Doctor (doctorID);
+
+ALTER TABLE Claim ADD FOREIGN KEY (AppID) REFERENCES Appointment (AppID);
+
+ALTER TABLE DescriptionOf ADD FOREIGN KEY (claimID) REFERENCES Claim (claimID);
+
+ALTER TABLE DescriptionOf ADD FOREIGN KEY (diagnosisName,procedureID) REFERENCES ChargesAndDiagnosis (diagnosisName,procedureID);
+
+ALTER TABLE PatientPayment ADD FOREIGN KEY (claimID) REFERENCES Claim (claimID);
+
+ALTER TABLE InsurancePayment ADD FOREIGN KEY (claimID) REFERENCES Claim (claimID);
+
+ALTER TABLE Patient ADD FOREIGN KEY (postalCode) REFERENCES Location (postalCode);
+
+ALTER TABLE Hospital ADD FOREIGN KEY (postalCode) REFERENCES Location (postalCode);
+
+ALTER TABLE ContactNo ADD FOREIGN KEY (ID) REFERENCES InsuranceCompany (insuranceProviderID);
