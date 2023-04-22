@@ -161,3 +161,33 @@ ALTER TABLE  Hospital  ADD FOREIGN KEY ( postalCode ) REFERENCES  Location  ( po
 ALTER TABLE  ContactNo  ADD FOREIGN KEY ( ID ) REFERENCES  InsuranceCompany  ( insuranceProviderID );
 
 ALTER TABLE  CurrentProcedureDescription  ADD FOREIGN KEY ( cptCode ) REFERENCES  ChargesAndDiagnosis  ( cptCode );
+
+
+
+
+CREATE TABLE contactno_doctor (
+    id INT NOT NULL,
+    mobileno VARCHAR(10),
+    PRIMARY KEY (id,mobileno),
+    CONSTRAINT fk_id
+        FOREIGN KEY (id)
+        REFERENCES Doctor(doctorID)
+);
+
+CREATE TABLE contactno_insurance (
+    id INT NOT NULL,
+    mobileno VARCHAR(10),
+    PRIMARY KEY (id,mobileno),
+    CONSTRAINT fk_id
+        FOREIGN KEY (id)
+        REFERENCES insurancecompany(insuranceProviderID)
+);
+
+CREATE TABLE contactno_patient (
+    id INT NOT NULL,
+    mobileno VARCHAR(10),
+    PRIMARY KEY (id,mobileno),
+    CONSTRAINT fk_id
+        FOREIGN KEY (id)
+        REFERENCES patient(patientID)
+);
