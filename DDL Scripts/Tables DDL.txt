@@ -166,7 +166,7 @@ ALTER TABLE  CurrentProcedureDescription  ADD FOREIGN KEY ( cptCode ) REFERENCES
 
 
 CREATE TABLE contactno_doctor (
-    id INT NOT NULL,
+    id VARCHAR NOT NULL,
     mobileno VARCHAR(10),
     PRIMARY KEY (id,mobileno),
     CONSTRAINT fk_id
@@ -175,7 +175,7 @@ CREATE TABLE contactno_doctor (
 );
 
 CREATE TABLE contactno_insurance (
-    id INT NOT NULL,
+    id VARCHAR NOT NULL,
     mobileno VARCHAR(10),
     PRIMARY KEY (id,mobileno),
     CONSTRAINT fk_id
@@ -184,7 +184,7 @@ CREATE TABLE contactno_insurance (
 );
 
 CREATE TABLE contactno_patient (
-    id INT NOT NULL,
+    id VARCHAR NOT NULL,
     mobileno VARCHAR(10),
     PRIMARY KEY (id,mobileno),
     CONSTRAINT fk_id
