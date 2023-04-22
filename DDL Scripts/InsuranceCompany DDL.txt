@@ -59,7 +59,7 @@ $$ LANGUAGE plpgsql;
 select * from insurancecompany;
 INSERT INTO insurancecompany (insuranceproviderid,emailiD,companyaddress, companyname)
 SELECT 
-    generate_series(2045901,2045930),  
+    CAST(generate_series(2045901,2045930) AS VARCHAR),  
     'insuranceprovider_' || generate_series(1,30) || '@example.com',
 	companyaddress(),
 	companyname();
