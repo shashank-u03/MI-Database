@@ -1,0 +1,228 @@
+Set search_path to project;
+CREATE OR REPLACE FUNCTION first_name()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{ Olivia, Emma, Amelia, Ava, Sophia, Charlotte, Mia, Harper, Isabella, Evelyn, Abigail, Emily, Elizabeth, Mila, Ella, Avery, Scarlett, Sofia, Camila, Aria, Chloe, Victoria, Madison, Luna, Grace, Penelope, Layla, Riley, Zoey, Nora, Lily, Eleanor, Hannah, Lillian, Addison, Aubrey, Ellie, Stella, Natalie, Zoe, Leah, Hazel, Violet, Aurora, Savannah ,Audrey ,Brooklyn ,Bella ,Claire ,Skylar ,Lucy ,Paisley ,Everly ,Anna ,Caroline ,Nova ,Genesis ,Emilia ,Kennedy ,Samantha ,Maya ,Willow ,Kinsley ,Naomi ,Aaliyah ,Elena ,Ariana ,Sarah ,Allison ,Gabriella ,Alice ,Madelyn ,Cora ,Ruby ,Eva ,Serenity ,Autumn ,Adeline ,Hailey ,Gianna ,Valentina ,Isla ,Eliana ,Quinn ,Nevaeh ,Ivy ,Sadie}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION speciality()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{ Family medicine, Internal Medicine, Pediatrician, Obstetricians/gynecologist (OBGYNs), Cardiologist, Oncologist, Gastroenterologist, Pulmonologist, Infectious disease, Nephrologist, Endocrinologist, Ophthalmologist, Otolaryngologist, Dermatologist , Psychiatrist}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION hospital_name()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{  Mayo Clinic, Cleveland Clinic, Johns Hopkins Hospital, Massachusetts General Hospital, University of Michigan Hospitals-Michigan Medicine, UCLA Medical Center, New York-Presbyterian Hospital-Columbia and Cornell, UCSF Medical Center, Brigham and Women’s Hospital, Cedars-Sinai Medical Center, Northwestern Memorial Hospital, Stanford Health Care-Stanford Hospital, Hospitals of the University of Pennsylvania-Penn Presbyterian, Barnes-Jewish Hospital/Washington University, Mount Sinai Hospital}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION middle_name()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{ Olivia, Emma, Amelia, Ava, Sophia, Charlotte, Mia, Harper, Isabella, Evelyn, Abigail, Emily, Elizabeth, Mila, Ella, Avery, Scarlett, Sofia, Camila, Aria, Chloe, Victoria, Madison, Luna, Grace, Penelope, Layla, Riley, Zoey, Nora, Lily, Eleanor, Hannah, Lillian, Addison, Aubrey, Ellie, Stella, Natalie, Zoe, Leah, Hazel, Violet, Aurora, Savannah ,Audrey ,Brooklyn ,Bella ,Claire ,Skylar ,Lucy ,Paisley ,Everly ,Anna ,Caroline ,Nova ,Genesis ,Emilia ,Kennedy ,Samantha ,Maya ,Willow ,Kinsley ,Naomi ,Aaliyah ,Elena ,Ariana ,Sarah ,Allison ,Gabriella ,Alice ,Madelyn ,Cora ,Ruby ,Eva ,Serenity ,Autumn ,Adeline ,Hailey ,Gianna ,Valentina ,Isla ,Eliana ,Quinn ,Nevaeh ,Ivy ,Sadie}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION last_name()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{Smith, Johnson, Williams, Brown, Jones, Miller, Davis, Garcia, Rodriguez, Martinez, Hernandez, Lopez, Gonzalez, Perez, Taylor, Anderson, Wilson, Jackson, Moore, Martin, Lee, Perez ,Thompson ,White ,Harris ,Young ,Allen ,King ,Wright ,Scott ,Green ,Baker ,Adams ,Nelson ,Carter ,Mitchell ,Perez ,Roberts ,Turner ,Phillips ,Campbell ,Parker ,Evans ,Edwards ,Collins ,Stewart ,Sanchez ,Morris ,Rogers ,Reed ,Cook ,Morgan ,Bell ,Murphy ,Bailey ,Rivera ,Cooper ,Richardson ,Cox ,Howard}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION city()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{New York City, Los Angeles, Chicago, Houston, Phoenix, Philadelphia, San Antonio, San Diego, Dallas, San Jose, Austin, Jacksonville, Fort Worth, Columbus, San Francisco, Charlotte, Indianapolis, Seattle, Denver, Washington D.C. }'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION state()
+RETURNS text AS $$
+BEGIN
+    RETURN (SELECT first_name FROM (
+        SELECT first_name
+        FROM (
+            SELECT unnest('{ New York City, Los Angeles, Chicago, Houston, Phoenix, Philadelphia, San Antonio, San Diego, Dallas, San Jose, Austin, Jacksonville, Fort Worth, Columbus, San Francisco, Charlotte, Indianapolis, Seattle, Denver, Washington D.C.}'::text[]) AS first_name     
+        ) AS names
+        ORDER BY random()
+        LIMIT 1
+    ) AS name);
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
+   RETURNS INT AS
+$$
+BEGIN
+   RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ language 'plpgsql' STRICT;
+
+CREATE OR REPLACE FUNCTION generate_gender(gender FLOAT)
+RETURNS CHAR(1) AS $$
+BEGIN
+    IF gender >0.5 THEN
+        RETURN 'M';
+    ELSEIF gender <=0.5 THEN
+        RETURN 'F';
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+INSERT INTO Location (postalCode, city, state, country)
+SELECT 
+    generate_series(390002,390052), 
+    city(), 
+    state(), 
+    'USA' 
+;
+Delete from Doctor;
+Delete from location;
+Delete from patient;
+Delete from hospital;
+select  * from hospital;
+select  * from patient;
+select  * from Doctor;
+select * from insuranceCompany;
+select * from Location;
+select * from appointment;
+INSERT INTO Patient (patientID, firstName, middleName, lastName, gender, emailID, DOB, postalCode)
+SELECT 
+    generate_series(1,100), 
+    first_name(), 
+    middle_name(), 
+    last_name(), 
+     generate_gender(random()), 
+    'email_' || generate_series(1,100) || '@example.com', 
+    '1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
+    floor(random() * (390052-390002+1) + 390002)::int;
+;
+INSERT INTO Patient (patientID, firstName, middleName, lastName, gender, emailID, DOB, postalCode)
+SELECT 
+    generate_series(1,100), 
+    first_name(), 
+    middle_name(), 
+    last_name(), 
+     generate_gender(random()), 
+    'email_' || generate_series(1,100) || '@example.com', 
+    '1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
+    floor(random() * (390052-390002+1) + 390002)::int;
+;
+INSERT INTO Hospital (hospitalID,hospitalName,postalCode,email)
+SELECT 
+    generate_series(202201,202215), 
+    hospital_name(), 
+    floor(random() * (390052-390002+1) + 390002)::int,
+	'hospital_' || generate_series(1,15) || '@gmail.com';
+    
+;
+INSERT INTO Doctor (doctorID,officeNo,firstName,middleName,lastName,NPI,email,speciality,taxID)
+SELECT 
+    generate_series(201,250), 
+    generate_series(1,50), 
+    first_name(),
+	middle_name(),
+	last_name(),
+	'NPI'||generate_series(1003000201,1003000250)	,
+	'doctor_' || generate_series(1,50) || '@gmail.com',
+	speciality(),
+	generate_series(258456301,258456350);    
+;
+
+CREATE OR REPLACE FUNCTION fee(prob FLOAT)
+RETURNS INT AS $$
+BEGIN
+    IF prob > 0.8 THEN
+        RETURN 70;
+    ELSEIF prob <= 0.8 THEN
+        RETURN 50;
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION status(prob FLOAT)
+RETURNS text AS $$
+BEGIN
+    IF prob > 0.8 THEN
+        RETURN 'Not Visited';
+    ELSEIF prob <= 0.8 THEN
+        RETURN 'Visited';
+    ELSE
+        RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+INSERT INTO Appointment(AppID,patientID,doctorID,AppDate,AppFee,Appstatus)
+SELECT 
+	generate_series(101001,101100),
+	generate_series(1,100),
+	floor(random() * (250-201+1) + 201)::int,
+	'2023-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
+	fee(random()),
+	status(random())
+	
+UPDATE Appointment SET AppFee = 0 WHERE Appstatus = 'Not Visited';
+
+INSERT INTO PatientInsurance(policyno,insuranceproviderid,patientid,subscriberdob,subscribername)
+SELECT 
+	generate_series(501001,501100),
+	floor(random() * (2045930-2045901+1) + 2045901)::int,
+	generate_series(1,100),
+	'1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
+	first_name()
