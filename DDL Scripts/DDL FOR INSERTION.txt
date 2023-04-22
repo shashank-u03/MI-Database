@@ -226,3 +226,25 @@ SELECT
 	generate_series(1,100),
 	'1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
 	first_name()
+
+
+select * from insurancecompany;
+INSERT INTO contactno_insurance (id,mobileno)
+SELECT 
+  generate_series(2045901,2045930),
+  concat('09', floor(random()*90000000 + 10000000)::int)::text
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO contactno_doctor (id,mobileno)
+SELECT 
+  generate_series(201,250), 
+  concat('09', floor(random()*90000000 + 10000000)::int)::text
+ON CONFLICT DO NOTHING;
+
+
+INSERT INTO contactno_patient (id,mobileno)
+SELECT 
+  generate_series(1,100), 
+  concat('09', floor(random()*90000000 + 10000000)::int)::text
+ON CONFLICT DO NOTHING;
