@@ -27,8 +27,8 @@ $$ LANGUAGE plpgsql;
 
 INSERT INTO Appointment(AppID,patientID,doctorID,AppDate,AppFee,Appstatus)
 SELECT 
-	generate_series(101001,101100),
-	generate_series(1,100),
+	CAST(generate_series(101001,101100) AS VARCHAR),
+	CAST(generate_series(1,100) AS VARCHAR),
 	floor(random() * (250-201+1) + 201)::int,
 	'2023-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
 	fee(random()),
