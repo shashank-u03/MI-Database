@@ -50,10 +50,9 @@ $$ LANGUAGE plpgsql;
 
 delete from claim;
 select * from claim;
-INSERT INTO claim (claimID, appid, claimdate, claimstatus, claimamt, paymentresponsibility, startdos, enddos,placeofservice)
+INSERT INTO claim (claimID, claimdate, claimstatus, claimamt, paymentresponsibility, startdos, enddos,placeofservice)
 SELECT 
-    generate_series(4094801,4094900), 
-	generate_series(101001,101100),
+    CAST(generate_series(4094801,4094900) AS VARCHAR),
 	now() + (random() * ('2023-08-01'::date-now())::interval),
     claimstatus(random()), 
     random_between(1000,5000), 
