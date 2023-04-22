@@ -44,8 +44,8 @@ $$ LANGUAGE plpgsql;
 select * from insurancepayment;
 INSERT INTO insurancepayment (paymentID, claimid, paymentstatus, paymenttype, paymentdate, paymentamount)
 SELECT 
-    generate_series(3045201,3045300),
-	generate_series(4094801,4094900),
+    CAST(generate_series(3045201,3045300) AS VARCHAR),
+	CAST(generate_series(4094801,4094900) AS VARCHAR),
     paymentstatus(), 
     paymenttype(),  
     '2019-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
