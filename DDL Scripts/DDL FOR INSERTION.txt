@@ -28,6 +28,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
 CREATE OR REPLACE FUNCTION hospital_name()
 RETURNS text AS $$
 BEGIN
@@ -42,6 +44,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
 CREATE OR REPLACE FUNCTION middle_name()
 RETURNS text AS $$
 BEGIN
@@ -55,6 +59,7 @@ BEGIN
     ) AS name);
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION last_name()
 RETURNS text AS $$
@@ -84,6 +89,9 @@ BEGIN
     ) AS name);
 END;
 $$ LANGUAGE plpgsql;
+
+
+
 CREATE OR REPLACE FUNCTION state()
 RETURNS text AS $$
 BEGIN
@@ -129,30 +137,11 @@ SELECT
     state(), 
     'USA' 
 ;
-Delete from Doctor;
-Delete from location;
-Delete from patient;
-Delete from hospital;
-select  * from hospital;
-select  * from patient;
-select  * from Doctor;
-select * from insuranceCompany;
-select * from Location;
-select * from appointment;
+
+
 INSERT INTO Patient (patientID, firstName, middleName, lastName, gender, emailID, DOB, postalCode)
 SELECT 
-    generate_series(1,100), 
-    first_name(), 
-    middle_name(), 
-    last_name(), 
-     generate_gender(random()), 
-    'email_' || generate_series(1,100) || '@example.com', 
-    '1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
-    floor(random() * (390052-390002+1) + 390002)::int;
-;
-INSERT INTO Patient (patientID, firstName, middleName, lastName, gender, emailID, DOB, postalCode)
-SELECT 
-    generate_series(1,100), 
+    CAST(generate_series(1,100) AS VARCHAR), 
     first_name(), 
     middle_name(), 
     last_name(), 
@@ -163,7 +152,7 @@ SELECT
 ;
 INSERT INTO Hospital (hospitalID,hospitalName,postalCode,email)
 SELECT 
-    generate_series(202201,202215), 
+    CAST(generate_series(202201,202215) AS VARCHAR), 
     hospital_name(), 
     floor(random() * (390052-390002+1) + 390002)::int,
 	'hospital_' || generate_series(1,15) || '@gmail.com';
@@ -171,12 +160,12 @@ SELECT
 ;
 INSERT INTO Doctor (doctorID,officeNo,firstName,middleName,lastName,NPI,email,speciality,taxID)
 SELECT 
-    generate_series(201,250), 
+    CAST(generate_series(201,250) AS VARCHAR), 
     generate_series(1,50), 
     first_name(),
 	middle_name(),
 	last_name(),
-	'NPI'||generate_series(1003000201,1003000250)	,
+	CAST('NPI'||generate_series(1003000201,1003000250) AS VARCHAR),
 	'doctor_' || generate_series(1,50) || '@gmail.com',
 	speciality(),
 	generate_series(258456301,258456350);    
@@ -210,9 +199,9 @@ $$ LANGUAGE plpgsql;
 
 INSERT INTO Appointment(AppID,patientID,doctorID,AppDate,AppFee,Appstatus)
 SELECT 
-	generate_series(101001,101100),
-	generate_series(1,100),
-	floor(random() * (250-201+1) + 201)::int,
+	CAST(generate_series(101001,101100) AS VARCHAR),
+	CAST(generate_series(1,100) AS VARCHAR),
+	CAST(floor(random() * (250-201+1) + 201)::int AS VARCHAR),
 	'2023-01-01'::date + (random() * (now() - '2023-01-01'::date))::interval,
 	fee(random()),
 	status(random())
@@ -221,9 +210,9 @@ UPDATE Appointment SET AppFee = 0 WHERE Appstatus = 'Not Visited';
 
 INSERT INTO PatientInsurance(policyno,insuranceproviderid,patientid,subscriberdob,subscribername)
 SELECT 
-	generate_series(501001,501100),
-	floor(random() * (2045930-2045901+1) + 2045901)::int,
-	generate_series(1,100),
+	CAST(generate_series(501001,501100) AS VARCHAR),
+	CAST(floor(random() * (2045930-2045901+1) + 2045901)::int AS VARCHAR),
+	CAST(generate_series(1,100) AS VARCHAR),
 	'1990-01-01'::date + (random() * (now() - '1990-01-01'::date))::interval,
 	first_name()
 
