@@ -2,7 +2,8 @@ set search_path to project;
 SET search_path TO project;
 
 
--- function to assign random first names
+
+-- FUNCTION TO ASSIGN RANDOM FIRST NAMES
 CREATE OR REPLACE FUNCTION first_name()
 RETURNS text AS $$
 BEGIN
@@ -18,7 +19,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign random middle names
+
+-- FUNCTION TO ASSIGN RANDOM MIDDLE NAMES
 CREATE OR REPLACE FUNCTION middle_name()
 RETURNS text AS $$
 BEGIN
@@ -34,7 +36,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign random last names
+
+-- FUNCTION TO ASSIGN RANDOM LAST NAMES
 CREATE OR REPLACE FUNCTION last_name()
 RETURNS text AS $$
 BEGIN
@@ -50,7 +53,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign doctor speciality
+
+-- FUNCTION TO ASSIGN DOCTOR SPECIALITY
 CREATE OR REPLACE FUNCTION speciality()
 RETURNS text AS $$
 BEGIN
@@ -66,7 +70,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign hospital names
+
+-- FUNCTION TO ASSIGN HOSPITAL NAMES
 CREATE OR REPLACE FUNCTION hospital_name()
 RETURNS text AS $$
 BEGIN
@@ -82,7 +87,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign city
+
+-- FUNCTION TO ASSIGN CITY
 CREATE OR REPLACE FUNCTION city()
 RETURNS text AS $$
 BEGIN
@@ -98,7 +104,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign state
+
+-- FUNCTION TO ASSIGN STATE
 CREATE OR REPLACE FUNCTION state()
 RETURNS text AS $$
 BEGIN
@@ -114,7 +121,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign gender
+
+-- FUNCTION TO ASSIGN GENDER
 CREATE OR REPLACE FUNCTION generate_gender(gender FLOAT)
 RETURNS CHAR(1) AS $$
 BEGIN
@@ -129,7 +137,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign fee
+
+-- FUNCTION TO ASSIGN APPOINTMENT FEE
 CREATE OR REPLACE FUNCTION fee(prob FLOAT)
 RETURNS INT AS $$
 BEGIN
@@ -145,7 +154,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign status
+-- FUNCTION TO ASSIGN APPOINTMENT STATUS
 CREATE OR REPLACE FUNCTION status(prob FLOAT)
 RETURNS text AS $$
 BEGIN
@@ -161,7 +170,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign address
+-- FUNCTION TO ASSIGN INSURANCE COMPANY ADDRESS
 CREATE OR REPLACE FUNCTION companyaddress()
 RETURNS text AS $$
 BEGIN
@@ -178,7 +187,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign company name
+-- FUNCTION TO ASSIGN INSURANCE COMPANY NAME
 CREATE OR REPLACE FUNCTION companyname()
 RETURNS text AS $$
 BEGIN
@@ -195,7 +204,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign paymentstatus
+-- FUNCTION TO ASSIGN PAYMENT STATUS
 CREATE OR REPLACE FUNCTION paymentstatus(prob float)
 RETURNS text AS $$
 BEGIN
@@ -211,7 +220,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign payment type
+-- FUNCTION TO ASSIGN PAYMENT TYPE
 CREATE OR REPLACE FUNCTION paymenttype()
 RETURNS text AS $$
 BEGIN
@@ -228,7 +237,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign payment amount
+-- FUNCTION TO ASSIGN PAYMENT AMOUNT
 CREATE OR REPLACE FUNCTION paymentamount()
 RETURNS int AS $$
 BEGIN
@@ -243,7 +252,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- function to assign cptcode in chargesanddiagnosis
+
+
+-- FUNCTION TO ASSIGN CPTCODE IN CHARGEANDDIAGNOSIS
 CREATE OR REPLACE FUNCTION cptcode()
 RETURNS text AS $$
 BEGIN
@@ -259,7 +270,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- function to assign pos
+
+-- FUNCTION TO ASSIGN PLACE OF SERVICE
 CREATE OR REPLACE FUNCTION place_of_service()
 RETURNS text AS $$
 BEGIN
@@ -292,7 +304,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- function to assign payment resp
+-- FUNCTION TO ASSIGN PAYMENT RESP
 CREATE OR REPLACE FUNCTION paymentresponsibility(prob FLOAT)
 RETURNS text AS $$
 BEGIN
@@ -308,6 +320,7 @@ $$ LANGUAGE plpgsql;
 
 
 
+-- FUNCTION TO GENERATE A RANDOM NUMBER BETWEEN GIVEN LIMITS
 CREATE OR REPLACE FUNCTION random_between(low INT ,high INT) 
    RETURNS INT AS
 $$
@@ -405,49 +418,81 @@ SELECT
 
 INSERT INTO CurrentProcedureDescription (cptCode, cptDescription, chargeFee)
 VALUES 
-    ('00600', 'Anesthesia for Procedure and Services on the Spine and Spinal Cord', 1500),
-    ('96900', 'Special Dermatological Procedure and Services', 800),
-    ('97010', 'Physical Medicine and Rehabilitation Evaluations', 1200),
-    ('97802', 'Medical Nutrition Therapy Procedure and Services', 500),
-    ('97810', 'Acupuncture Procedure and Services', 1000),
-    ('98925', 'Osteopathic Manipulative Treatment Procedure and Services', 900),
-    ('99000', 'Special Services, Procedure and Services and Reports', 600),
-    ('99100', 'Qualifying Circumstances for Anesthesia', 2000),
-    ('99151', 'Moderate (Conscious) Sedation', 1500),
-    ('99170', 'Other Medicine Services and Procedure and Services', 1000),
-    ('99439', 'Care Management Evaluation and Management Services', 800),
-    ('99450', 'Special Evaluation and Management Services', 1200),
-    ('99460', 'Newborn Care Services', 900),
-    ('00671', 'Anesthesia for Procedure and Services on the Spine and Spinal Cord - additional 30 minutes', 500),
-    ('97780', 'Physical performance test or measurement (e.g., musculoskeletal, functional capacity), with written report, each 15 minutes', 300),
-    ('97799', 'Physical medicine procedure', 400),
-    ('97151', 'Adaptive Behavior Services', 800),
-    ('00681', 'Anesthesia for Procedures on Anterior Nerves, Cervical Plexus, and Brachial Plexus', 2000),
-    ('99468', 'Prolonged Services Without Direct Patient Contact', 700),
-    ('90791', 'Psychiatric Diagnostic Evaluation', 1500),
-  ('96570', 'Photodynamic therapy for precancerous lesion, per treatment session',1200),
-  ('94005', 'Pulmonary function testing, with maximal or voluntary ventilation',120),
-  ('95250', 'Continuous glucose monitoring (CGM) of interstitial tissue fluid via a subcutaneous sensor for a minimum of 72 hours; interpretation and report',200),
-  ('95732', 'Needle electromyography; thoracic paraspinal muscles, one side',700),
-  ('82044', 'Qualitative drug screen, multi-drug class method, each procedure',800),
-  ('85025', 'Complete blood count (CBC), automated (Hgb, Hct, RBC, WBC and platelet count)',400),
-  ('86003', 'Allergen specific IgE; quantitative, multiallergen screen (eg, profile), serum',800),
-  ('86874', 'Rh(D) typing; fetal cells in maternal circulation (noninvasive prenatal testing)',900),
-  ('87077', 'Culture, presumptive, pathogenic fungi, isolation and presumptive identification, each specimen',500),
-  ('88007', 'Microdissection, manual',600),
-  ('88108', 'Morphometric analysis, in situ hybridization (quantitative or semi-quantitative)',3400),
-  ('88269', 'Chromosome analysis; additional karyotype study',4300),
-  ('88309', 'Level IV - Surgical pathology, gross and microscopic examination',2300),
-  ('88743', 'Oxygen saturation (oximetry) monitoring, 24 hours or more, technician attendance only',600),
-  ('89190', 'Assay of methylmalonic acid, serum',700),
-  ('89296', 'Unlisted reproductive medicine service or procedure',200),
-  ('90376', 'Respiratory syncytial virus immune globulin, intramuscular, 50 mg',400),
-  ('90472', 'Initial hospital or office visit for immunization administration',100),
-  ('90480', 'Influenza virus vaccine, quadrivalent (IIV4), inactivated, adjuvanted, preservative free, 0.25 mL dosage, for intramuscular use',100),
-  ('90903', 'Biofeedback training, perineal muscles, anorectal or urethral sphincter, including EMG and/or manometry',120),
-  ('90969', 'Dialysis procedure other than hemodialysis (e.g., peritoneal dialysis)',125),
-  ('91020', 'Gastrointestinal tract endoscopy, diagnostic, with or without collection of specimen(s) by brushing or washing (separate procedure)',721); 
-
+    ('cpt_1', 'Flu vaccine administration', 50),
+    ('cpt_2', 'Common cold diagnosis', 100),
+    ('cpt_3', 'Asthma management', 150),
+    ('cpt_4', 'Hypertension screening', 120),
+    ('cpt_5', 'Diabetes management', 200),
+    ('cpt_6', 'Cancer screening', 200),
+    ('cpt_7', 'Hypertension management', 150),
+    ('cpt_8', 'Heart disease diagnosis', 300),
+    ('cpt_9', 'Stroke rehabilitation', 250),
+    ('cpt_10', 'Diabetes education', 100),
+    ('cpt_11', 'Evaluation and management of attention deficit hyperactivity disorder (ADHD)', 245),
+    ('cpt_12', 'Evaluation and management of autism spectrum disorder', 300),
+    ('cpt_13', 'Treatment of ear infection (otitis media)', 150),
+    ('cpt_14', 'Treatment of asthma exacerbation', 200),
+    ('cpt_15', 'Management of type 2 diabetes mellitus', 100),
+    ('cpt_16', 'Diagnostic mammography for breast cancer screening', 350),
+    ('cpt_17', 'Treatment of ovarian cancer', 500),
+    ('cpt_18', 'Treatment of cervical cancer', 450),
+    ('cpt_19', 'Treatment of endometriosis', 275),
+    ('cpt_20', 'Hormone replacement therapy for menopausal symptoms', 175),
+    ('cpt_21', 'Coronary angiography for diagnosis of coronary artery disease', 800),
+    ('cpt_22', 'Treatment of acute myocardial infarction (heart attack)', 1500),
+    ('cpt_23', 'Management of arrhythmia with implantable cardioverter-defibrillator (ICD)', 1200),
+    ('cpt_24', 'Treatment of heart failure exacerbation', 1000),
+    ('cpt_25', 'Management of hypertension with medication therapy', 75),
+    ('cpt_26', 'Breast cancer surgery with lymph node dissection', 4000),
+    ('cpt_27', 'Chemotherapy for non-small cell lung cancer', 3500),
+    ('cpt_28', 'Colonoscopy with biopsy for colon cancer screening and diagnosis', 750),
+    ('cpt_29', 'Induction chemotherapy for acute myeloid leukemia', 2000),
+    ('cpt_30', 'Radiation therapy for Hodgkin''s lymphoma', 3000),
+    ('cpt_31', 'Esophagogastroduodenoscopy (EGD) for diagnosis of gastroesophageal reflux disease (GERD)', 400),
+    ('cpt_32', 'Treatment of Crohn''s disease with immunomodulators', 950),
+    ('cpt_33', 'Treatment of ulcerative colitis with biologics', 1200),
+    ('cpt_34', 'Management of irritable bowel syndrome (IBS) with dietary modifications and medication therapy', 175),
+    ('cpt_35', 'Treatment of acute pancreatitis', 800),
+    ('cpt_36', 'Pulmonary function tests for diagnosis of asthma', 250),
+    ('cpt_37', 'Treatment of COPD exacerbation', 300),
+    ('cpt_38', 'Treatment of emphysema with bronchodilators and corticosteroids', 250),
+    ('cpt_39', 'Lobectomy for lung cancer treatment', 5000),
+('cpt_40', 'Management of pulmonary fibrosis with oxygen therapy and corticosteroids', 1200),
+('cpt_41', 'Diagnosis of COVID-19 with nucleic acid amplification test (NAAT)', 250),
+('cpt_42', 'Diagnosis of HIV infection with enzyme immunoassay (EIA) and confirmatory Western blot test', 500),
+('cpt_43', 'Diagnosis of tuberculosis with chest X-ray and sputum culture', 350),
+('cpt_44', 'Diagnosis of malaria with blood smear examination', 400),
+('cpt_45', 'Diagnosis of Zika virus infection with reverse transcription polymerase chain reaction (RT-PCR)', 300),
+('cpt_46', 'Extracorporeal shock wave lithotripsy (ESWL) for kidney stone removal', 5000),
+('cpt_47', 'Management of chronic kidney disease with angiotensin-converting enzyme (ACE) inhibitors', 1500),
+('cpt_48', 'Genetic testing for polycystic kidney disease', 2000),
+('cpt_49', 'Management of nephrotic syndrome with corticosteroids', 1200),
+('cpt_50', 'Diagnosis of acute kidney injury with blood and urine tests', 800),
+('cpt_51', 'Management of diabetes with oral hypoglycemic agents and insulin therapy', 1000),
+('cpt_52', 'Diagnosis of thyroid disorders with thyroid-stimulating hormone (TSH) and free thyroxine (FT4) tests', 600),
+('cpt_53', 'Bone mineral density testing for osteoporosis screening', 750),
+('cpt_54', 'Management of metabolic syndrome with lifestyle modifications and medication therapy', 900),
+('cpt_55', 'Diagnosis of Cushing''s syndrome with 24-hour urinary free cortisol test', 1000),
+('cpt_56', 'Phacoemulsification with intraocular lens implantation for cataract removal', 5000),
+('cpt_57', 'Management of glaucoma with topical beta blockers and prostaglandin analogs', 1500),
+('cpt_58', 'Diagnosis of macular degeneration with fundus photography and optical coherence tomography (OCT)', 2000),
+('cpt_59', 'Management of diabetic retinopathy with laser photocoagulation and intravitreal injections', 3000),
+('cpt_60', 'Management of dry eye syndrome with artificial tears and cyclosporine eye drops', 1200),
+('cpt_61', 'Diagnosis of sinusitis with nasal endoscopy and computed tomography (CT) scan', 1000),
+('cpt_62', 'Management of tinnitus with cognitive behavioral therapy and sound therapy', 800),
+('cpt_63', 'Hearing aid fitting for management of hearing loss', 2500),
+('cpt_64', 'Diagnosis of vertigo with Dix-Hallpike test and electronystagmography (ENG)', 1200),
+('cpt_65', 'Continuous positive airway pressure (CPAP) therapy for sleep apnea', 2000),
+('cpt_66', 'Topical retinoids for management of acne vulgaris', 700),
+('cpt_67', 'Management of eczema with topical corticosteroids and moisturizers', 600),
+('cpt_68', 'Management of psoriasis with topical vitamin D analogs and biologics', 1500),
+('cpt_69', 'Excisional biopsy for diagnosis and treatment of skin cancer', 760),
+('cpt_70', 'Management of rosacea with topical metronidazole and oral tetracyclines', 200),
+('cpt_71', 'Selective serotonin reuptake inhibitors (SSRIs) for management of depression', 300),
+('cpt_72', 'Cognitive behavioral therapy (CBT) for management of anxiety disorders', 500),
+('cpt_73', 'Mood stabilizers for management of bipolar disorder', 400),
+('cpt_74', 'Atypical antipsychotics for management of schizophrenia', 700),
+('cpt_75', 'Stimulant medications for management', 600);
 
 
 INSERT INTO chargesanddiagnosis (procedureid, appid, cptcode, quantity)
@@ -481,11 +526,13 @@ UPDATE claim
 SET enddos=startdos + floor(random()*15)::integer
 
 
+
 INSERT INTO descriptionof (procedureid, claimid)
 SELECT 
 	'procedure_' || generate_series(1,350),
 	'claim_' || generate_series(1,350);
 ;
+
 
 
 INSERT INTO insurancepayment (paymentID, claimid, paymentstatus, paymenttype, paymentdate, paymentamount)
@@ -502,6 +549,7 @@ UPDATE insurancepayment
 SET paymentdate = claim.enddos + floor(random_between(10,30))::integer
 FROM claim
 WHERE claim.claimid = insurancepayment.claimid;
+
 
 
 INSERT INTO patientpayment (paymentID, claimid, paymentstatus, paymentamount, paymentdate, paymenttype)
@@ -533,7 +581,8 @@ JOIN claim c ON ip.claimid = c.claimid
 WHERE c.claimdate <= ip.paymentdate;
 
 
--- insurance only
+
+-- INSURANCE ONLY PAYMENT
 UPDATE insurancepayment 
 SET paymentamount = chargefee + random_between(500,1000)
 FROM claim
@@ -543,7 +592,8 @@ JOIN currentproceduredescription ON chargesanddiagnosis.cptcode = currentprocedu
 WHERE insurancepayment.claimid = claim.claimid AND paymentresponsibility = 'Insurance Company' AND paymentstatus = 'Accepted';
 
 
--- self only
+
+-- SELF ONLY PAYMENT
 UPDATE patientpayment 
 SET paymentamount = chargefee + random_between(500,1000)
 FROM claim
@@ -552,18 +602,17 @@ JOIN chargesanddiagnosis ON descriptionof.procedureid = chargesanddiagnosis.proc
 JOIN currentproceduredescription ON chargesanddiagnosis.cptcode = currentproceduredescription.cptcode
 WHERE patientpayment.claimid = claim.claimid AND paymentresponsibility = 'Self' AND paymentstatus = 'Accepted';
 
-
--- Deleting tuples from ip having only self pay
+-- DELETING TUPLES FROM IP HAVING ONLY SELF PAY
 DELETE FROM insurancepayment ip
 WHERE claimid IN (SELECT claimid FROM claim WHERE paymentresponsibility = 'Self');
 
-
--- Deleting tuples from pp having only insurance pay
+-- DELETING TUPLES FROM PP HAVING ONLY INSURANCE PAY
 DELETE FROM patientpayment pp
 WHERE claimid IN (SELECT claimid FROM claim WHERE paymentresponsibility = 'Insurance Company');
 
 
--- assigning patient payment for both pay
+
+-- ASSIGNING PATIENT PAYMENT FOR BOTH PAY
 UPDATE patientpayment 
 SET paymentamount = chargefee * random_between(20,40) / 100
 FROM claim
@@ -573,7 +622,7 @@ JOIN currentproceduredescription ON chargesanddiagnosis.cptcode = currentprocedu
 WHERE patientpayment.claimid = claim.claimid AND paymentresponsibility = 'Both' AND paymentstatus = 'Accepted';
 
 
--- assigning insurance payment for both pay
+-- ASSIGNING INSURANCE PAYMENT FOR BOTH PAY
 UPDATE insurancepayment 
 SET paymentamount = chargefee - patientpayment.paymentamount + random_between(200,1000)
 FROM claim
@@ -585,9 +634,9 @@ WHERE insurancepayment.claimid = claim.claimid AND paymentresponsibility = 'Both
 
 
 
--- assign '277 finalized' for insurance accepted
+-- ASSIGN '277 Finalized' FOR INSURANCE ONLY ACCEPTED
 UPDATE claim 
-SET claimstatus = '227 Finalized'
+SET claimstatus = '277 Finalized'
 FROM insurancepayment 
 WHERE insurancepayment.claimid = claim.claimid 
 AND claim.paymentresponsibility = 'Insurance Company' 
@@ -595,29 +644,32 @@ AND insurancepayment.paymentstatus = 'Accepted'
 
 
 
--- assign '277 finalized' for self accepted
+-- ASSIGN '277 Finalized' FOR SELF ONLY ACCEPTED
 UPDATE claim 
-SET claimstatus = '227 Finalized'
+SET claimstatus = '277 Finalized'
 FROM patientpayment 
 WHERE patientpayment.claimid = claim.claimid 
 AND claim.paymentresponsibility = 'Self' 
 AND patienpayment.paymentstatus = 'Accepted'
 
--- inserting data into diseasetype
+
+
 INSERT INTO diseasetype (appid, diseasetype)
 SELECT 
 	'app_' || generate_series(1,350),
    'NULLDisease'; 
 ;
 
---updating disease with speciality
+-- UPDATING DISEASE ACCORDING TO DOCTOR SPECIALITY
 UPDATE DiseaseType 
 SET DiseaseType = get_disease_for_speciality(Doctor.speciality)
 FROM Appointment
 JOIN Doctor ON Appointment.doctorID = Doctor.doctorID
 WHERE Appointment.AppID = DiseaseType.AppID ;
 
--- checking for speciality and disease type
+
+
+-- FUNCTION TO ASSIGN DISEASE ACCORDING TO DOCTOR SPECIALITY
 CREATE OR REPLACE FUNCTION get_disease_for_speciality(speciality text)
 RETURNS text AS $$
 BEGIN
@@ -656,26 +708,146 @@ BEGIN
 	
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+UPDATE ChargesAndDiagnosis
+SET cptCode = get_cptcode_for_disease(DiseaseType.DiseaseType)
+FROM Appointment
+JOIN DiseaseType ON Appointment.AppID = DiseaseType.AppID
+WHERE Appointment.AppID = ChargesAndDiagnosis.AppID;
+
+CREATE OR REPLACE FUNCTION get_cptcode_for_disease(diseasename text)
+RETURNS text AS $$
+BEGIN
+    IF diseasename = 'Flu' THEN RETURN 'cpt_1';
+    ELSIF diseasename = 'Common Cold' THEN RETURN 'cpt_2';
+    ELSIF diseasename = 'Asthma' THEN RETURN 'cpt_3';
+    ELSIF diseasename = 'Hypertension' THEN RETURN 'cpt_4';
+    ELSIF diseasename = 'Diabetes' THEN RETURN 'cpt_5';
+    ELSIF diseasename = 'Heart Disease' THEN RETURN 'cpt_6';
+    ELSIF diseasename = 'Diabetes' THEN RETURN 'cpt_7';
+    ELSIF diseasename = 'Hypertension' THEN RETURN 'cpt_8';
+    ELSIF diseasename = 'Osteoporosis' THEN RETURN 'cpt_9';
+    ELSIF diseasename = 'Arthritis' THEN RETURN 'cpt_10';
+    ELSIF diseasename = 'Asthma' THEN RETURN 'cpt_11';
+    ELSIF diseasename = 'Common Cold' THEN RETURN 'cpt_12';
+    ELSIF diseasename = 'Chickenpox,' THEN RETURN 'cpt_13';
+    ELSIF diseasename = 'Eczema' THEN RETURN 'cpt_14';
+    ELSIF diseasename = 'ADHD' THEN RETURN 'cpt_15';
+    ELSIF diseasename = 'Endometriosis' THEN RETURN 'cpt_16';
+    ELSIF diseasename = 'Polycystic Ovary Syndrome (PCOS)' THEN RETURN 'cpt_17';
+    ELSIF diseasename = 'Cervical Cancer' THEN RETURN 'cpt_18';
+    ELSIF diseasename = 'Ovarian Cancer' THEN RETURN 'cpt_19';
+    ELSIF diseasename = 'Breast Cancer' THEN RETURN 'cpt_20';
+    ELSIF diseasename = 'Coronary Artery Disease' THEN RETURN 'cpt_21';
+    ELSIF diseasename = 'Heart Attack' THEN RETURN 'cpt_22';
+    ELSIF diseasename = 'Arrhythmia' THEN RETURN 'cpt_23';
+    ELSIF diseasename = 'Heart Failure' THEN RETURN 'cpt_24';
+    ELSIF diseasename = 'Valvular Heart Disease' THEN RETURN 'cpt_25';
+    ELSIF diseasename = 'Breast Cancer' THEN RETURN 'cpt_26';
+    ELSIF diseasename = 'Lung Cancer' THEN RETURN 'cpt_27';
+    ELSIF diseasename = 'Prostate Cancer' THEN RETURN 'cpt_28';
+    ELSIF diseasename = 'Colon Cancer' THEN RETURN 'cpt_29';
+    ELSIF diseasename = 'Leukemia' THEN RETURN 'cpt_30';
+    ELSIF diseasename = 'Gastroesophageal Reflux Disease (GERD)' THEN RETURN 'cpt_31';
+    ELSIF diseasename = 'Irritable Bowel Syndrome (IBS)' THEN RETURN 'cpt_32';
+    ELSIF diseasename = 'Ulcerative Colitis' THEN RETURN 'cpt_33';
+    ELSIF diseasename = 'Crohn’s Disease' THEN RETURN 'cpt_34';
+    ELSIF diseasename = 'Pancreatitis' THEN RETURN 'cpt_35';
+    ELSIF diseasename = 'Asthma' THEN RETURN 'cpt_36';
+    ELSIF diseasename = 'Chronic Obstructive Pulmonary Disease (COPD)' THEN RETURN 'cpt_37';
+    ELSIF diseasename = 'Pneumonia' THEN RETURN 'cpt_37';
+    ELSIF diseasename = 'Lung Cancer' THEN RETURN 'cpt_39';
+    ELSIF diseasename = 'Pulmonary Fibrosis' THEN RETURN 'cpt_40';
+    ELSIF diseasename = 'HIV/AIDS' THEN RETURN 'cpt_10';
+    ELSIF diseasename = 'Tuberculosis' THEN RETURN 'cpt_42';
+    ELSIF diseasename = 'Malaria' THEN RETURN 'cpt_43';
+    ELSIF diseasename = 'Influenza' THEN RETURN 'cpt_44';
+    ELSIF diseasename = 'Ebola' THEN RETURN 'cpt_45';
+    ELSIF diseasename = 'Kidney Stones' THEN RETURN 'cpt_46';
+    ELSIF diseasename = 'Chronic Kidney Disease' THEN RETURN 'cpt_47';
+    ELSIF diseasename = 'Polycystic Kidney Disease' THEN RETURN 'cpt_48';
+    ELSIF diseasename = 'Glomerulonephritis' THEN RETURN 'cpt_49';
+    ELSIF diseasename = 'Nephrotic Syndrome' THEN RETURN 'cpt_50';
+    ELSIF diseasename = 'Diabetes' THEN RETURN 'cpt_51';
+    ELSIF diseasename = 'Hypothyroidism' THEN RETURN 'cpt_52';
+    ELSIF diseasename = 'Hyperthyroidism' THEN RETURN 'cpt_53';
+    ELSIF diseasename = 'Cushing Syndrome' THEN RETURN 'cpt_54';
+    ELSIF diseasename = 'Addison’s Diseas' THEN RETURN 'cpt_55';
+    ELSIF diseasename = 'Cataracts' THEN RETURN 'cpt_56';
+    ELSIF diseasename = 'Glaucoma' THEN RETURN 'cpt_57';
+    ELSIF diseasename = 'Diabetic Retinopathy' THEN RETURN 'cpt_58';
+    ELSIF diseasename = 'Age-Related Macular Degeneration' THEN RETURN 'cpt_59';
+    ELSIF diseasename = 'Retinal Detachment' THEN RETURN 'cpt_60';
+    ELSIF diseasename = 'Sinusitis' THEN RETURN 'cpt_61';
+    ELSIF diseasename = 'Tinnitus' THEN RETURN 'cpt_62';
+    ELSIF diseasename = 'Hearing loss' THEN RETURN 'cpt_63';
+    ELSIF diseasename = 'Vertigo' THEN RETURN 'cpt_64';
+    ELSIF diseasename = 'Sleep apnea' THEN RETURN 'cpt_65';
+    ELSIF diseasename = 'Acne' THEN RETURN 'cpt_66';
+    ELSIF diseasename = 'Eczema' THEN RETURN 'cpt_67';
+    ELSIF diseasename = 'Psoriasis' THEN RETURN 'cpt_68';
+    ELSIF diseasename = 'Skin cancer' THEN RETURN 'cpt_69';
+    ELSIF diseasename = 'Rosacea' THEN RETURN 'cpt_70';
+    ELSIF diseasename = 'Depression' THEN RETURN 'cpt_71';
+    ELSIF diseasename = 'Anxiety disorders' THEN RETURN 'cpt_72';
+    ELSIF diseasename = 'Bipolar disorder' THEN RETURN 'cpt_73';
+    ELSIF diseasename = 'Schizophrenia' THEN RETURN 'cpt_74';
+    ELSIF diseasename = 'ADHD' THEN RETURN 'cpt_75';
+	ELSE RETURN NULL;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- ASSIGN 'Insurance Accepted' FOR BOTH PAY, INSURANCE ACCEPTED
+UPDATE claim 
+SET claimstatus = 'Insurance Accepted'
+FROM insurancepayment 
+WHERE insurancepayment.claimid = claim.claimid 
+AND claim.paymentresponsibility = 'Both' 
+AND insurancepayment.paymentstatus = 'Accepted'
+
+
+UPDATE claim
+SET claimstatus = 'Insurance Rejected'
+FROM insurancepayment
+WHERE insurancepayment.claimid = claim.claimid
+AND claim.paymentresponsibility = 'Both'
+AND insurancepayment.paymentstatus = 'Rejected'
+
+
+
+-- ASSIGN '277 Finalized' FOR BOTH PAY, SELF ACCEPTED ELSE 'Insurance Accepted' if SELF REJECTED
+UPDATE claim 
+SET claimstatus = '277 Finalized'
+FROM patientpayment
+WHERE patientpayment.claimid = claim.claimid
+AND claim.paymentresponsibility = 'Both'
+AND patientpayment.paymentstatus = 'Accepted'
+AND claimstatus = 'Insurance Accepted'
+
+
+
+
+
+
+
+
+-- ASSIGN '277 Denied' FOR BOTH PAY, BOTH REJ
+UPDATE claim
+SET claimstatus = '277 Denied'
+FROM patientpayment
+WHERE patientpayment.claimid = claim.claimid
+AND claim.paymentresponsibility = 'Both'
+AND patientpayment.paymentstatus = 'Rejected'
+AND claim.claimstatus = 'Insurance Rejected'
+
+
+
 ------------------------------------------------------- DONE -------------------------------------------------------
-
-select * from patientpayment;
-select * from claim;
-select * from diseasetype;
-delete from diseasetype;
-
-select ap.appid,ds.diseasetype,d.doctorid,d.speciality from
-appointment ap natural join diseasetype ds natural join doctor d
-where speciality='Dermatologist';
-
-
-
-
-
-
-
-
-
-
 
 
 
