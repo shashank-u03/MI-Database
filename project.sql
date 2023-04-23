@@ -1,3 +1,4 @@
+set search_path to project;
 SET search_path TO project;
 
 
@@ -601,11 +602,70 @@ FROM patientpayment
 WHERE patientpayment.claimid = claim.claimid 
 AND claim.paymentresponsibility = 'Self' 
 AND patienpayment.paymentstatus = 'Accepted'
+
+-- inserting data into diseasetype
+INSERT INTO diseasetype (appid, diseasetype)
+SELECT 
+	'app_' || generate_series(1,350),
+   'NULLDisease'; 
+;
+
+--updating disease with speciality
+UPDATE DiseaseType 
+SET DiseaseType = get_disease_for_speciality(Doctor.speciality)
+FROM Appointment
+JOIN Doctor ON Appointment.doctorID = Doctor.doctorID
+WHERE Appointment.AppID = DiseaseType.AppID ;
+
+-- checking for speciality and disease type
+CREATE OR REPLACE FUNCTION get_disease_for_speciality(speciality text)
+RETURNS text AS $$
+BEGIN
+    IF speciality = 'Family medicine' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Flu, Common Cold, Asthma, Hypertension, Diabetes}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Internal Medicine' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Heart Disease, Diabetes, Hypertension, Osteoporosis, Arthritis}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Pediatrician' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Asthma, Common Cold, Chickenpox, Eczema, ADHD}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Obstetricians/gynecologist (OBGYNs)' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Endometriosis, Polycystic Ovary Syndrome (PCOS), Cervical Cancer, Ovarian Cancer, Breast Cancer}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Cardiologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Coronary Artery Disease, Heart Attack, Arrhythmia, Heart Failure, Valvular Heart Disease}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Oncologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Breast Cancer, Lung Cancer, Prostate Cancer, Colon Cancer, Leukemia}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Gastroenterologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Gastroesophageal Reflux Disease (GERD), Irritable Bowel Syndrome (IBS), Ulcerative Colitis, Crohn’s Disease, Pancreatitis}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Pulmonologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Asthma, Chronic Obstructive Pulmonary Disease (COPD), Pneumonia, Lung Cancer, Pulmonary Fibrosis}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Infectious disease' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{HIV/AIDS, Tuberculosis, Malaria, Influenza, Ebola}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Nephrologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Kidney Stones, Chronic Kidney Disease, Polycystic Kidney Disease, Glomerulonephritis, Nephrotic Syndrome}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Endocrinologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Diabetes, Hypothyroidism, Hyperthyroidism, Cushing Syndrome, Addison’s Disease}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Ophthalmologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM(SELECT unnest('{Cataracts, Glaucoma, Diabetic Retinopathy, Age-Related Macular Degeneration, Retinal Detachment}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Otolaryngologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM (SELECT unnest('{Sinusitis, Tinnitus, Hearing loss, Vertigo, Sleep apnea}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+    ELSIF speciality = 'Dermatologist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM (SELECT unnest('{Acne, Eczema, Psoriasis, Skin cancer, Rosacea}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2);
+
+    ELSIF speciality = 'Psychiatrist' THEN
+        RETURN (SELECT diseasetype FROM (SELECT diseasetype FROM (SELECT unnest('{Depression, Anxiety disorders, Bipolar disorder, Schizophrenia, ADHD}'::text[])AS diseasetype  ) AS diseasetype1 ORDER BY random() LIMIT 1) AS diseasetype2); 
+	END IF;
+	
+END;
+$$ LANGUAGE plpgsql;
 ------------------------------------------------------- DONE -------------------------------------------------------
 
+select * from patientpayment;
+select * from claim;
+select * from diseasetype;
+delete from diseasetype;
 
-
-
+select ap.appid,ds.diseasetype,d.doctorid,d.speciality from
+appointment ap natural join diseasetype ds natural join doctor d
+where speciality='Dermatologist';
 
 
 
