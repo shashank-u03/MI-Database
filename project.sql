@@ -2,7 +2,6 @@ set search_path to project;
 SET search_path TO project;
 
 
-
 -- FUNCTION TO ASSIGN RANDOM FIRST NAMES
 CREATE OR REPLACE FUNCTION first_name()
 RETURNS text AS $$
